@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Admin-CUCEI-SRG | Registro</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="Ionicons/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="iCheck/square/blue.css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition register-page">
+<div class="register-box">
+  <div class="register-logo">
+    <a href="../../index2.html"><b>Admin</b>CUCEI-SRG</a>
+  </div>
+
+  <div class="register-box-body">
+    <p class="login-box-msg">Formulario de Registro de Usuarios.</p>
+    <p class="login-box-msg">Coordinación de Servicios Generales/Unidad de Mantenimiento.</p>
+      <div class="form-group has-feedback">
+        <input type="email" class="form-control" placeholder="Escribe tu correo electrónico"  id="email" name="email" required>
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <p style="color: red; text-align: center;">Tu password debe contener al menos 6 caracteres.</p>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="Escribe tu password" id="password" name="password" required>
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+          <div style="text-align: center;">
+          <button type="button" class="btn btn-outline-primary btn-lg" onclick="registrar();">Registrar</button>
+        </div>
+        <!-- /.col -->
+      </div> 
+        <!-- <div style="text-align: center;">
+           <a href="login.html" class="text-center">Ya tengo una cuenta.</a>
+        </div>-->
+      </div>
+  </div>
+  <!-- /.form-box -->
+</div>
+<!-- /.register-box -->
+</body>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyA0DEHXIXxm83tCuyo1ywqWYQxDHC-GAzI",
+    authDomain: "cucei-srg.firebaseapp.com",
+    databaseURL: "https://cucei-srg.firebaseio.com",
+    projectId: "cucei-srg",
+    storageBucket: "cucei-srg.appspot.com",
+    messagingSenderId: "56958534713"
+  };
+  firebase.initializeApp(config);
+
+  function registrar(){
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      firebase.auth().createUserWithEmailAndPassword(email,password).then(function(){
+          verificar()
+      }).catch(function(error){
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          alert("Ha ocurrido un error: "+ errorMessage);
+          document.getElementById('email').value = "";
+          document.getElementById('password').value = "";
+          console.log(errorCode);
+          console.log(errorMessage);
+
+      })
+  }
+  function verificar(){
+      var user = firebase.auth().currentUser;
+      user.sendEmailVerification().then(function(){
+          alert("El correo de verificacion ha sido enviado exitosamente");
+          document.getElementById('email').value = "";
+          document.getElementById('password').value = "";
+      }).catch(function(error){
+          alert("Ha ocurrido un error al intentar registrarse");
+          document.getElementById('email').value = "";
+          document.getElementById('password').value = "";
+          console.log(error);
+      });
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<!-- jQuery 3 -->
+<script src="jquery/dist/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- iCheck -->
+<script src="iCheck/icheck.min.js"></script>
+</html>
